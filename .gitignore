@@ -129,11 +129,10 @@ dmypy.json
 .pyre/
 
 #配置文件
-src/oceanengine_sdk_py/config
-src/oceanengine_sdk_py/local_log
+src/oceanengine_sdk_py/config/
 
 #日志文件
-src/oceanengine_sdk_py/log
+src/oceanengine_sdk_py/log/
 
 #下载的数据
-src/oceanengine_sdk_py/data
+src/oceanengine_sdk_py/data/
