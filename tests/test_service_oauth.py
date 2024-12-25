@@ -91,12 +91,12 @@ class TestServiceOauth2(unittest.TestCase):
         current_time = datetime.datetime.now()
         if rsp_data['code'] != 0:
             raise Exception(rsp_data['message'])
-        self.access_token = rsp_data['data']['access_token']
-        self.refresh_token = rsp_data['data']['refresh_token']
-        self.expires_time = current_time + datetime.timedelta(seconds=rsp_data['data'].get('expires_in', 0))
-        self.refresh_expires_time = current_time + datetime.timedelta(
+        self.client.access_token = rsp_data['data']['access_token']
+        self.client.refresh_token = rsp_data['data']['refresh_token']
+        self.client.expires_time = current_time + datetime.timedelta(seconds=rsp_data['data'].get('expires_in', 0))
+        self.client.refresh_expires_time = current_time + datetime.timedelta(
                            seconds=rsp_data['data'].get('refresh_token_expires_in', 0))
-        rsp = convert_dict_keys(vars(self), "small_camel")
+        rsp = convert_dict_keys(vars(self.client), "small_camel")
         update_result = self.db_service.update_auth_sql(self.define_db_connect, rsp, rsp['userName'])
 
     def test_oauth2_access__token_adApi(self):
