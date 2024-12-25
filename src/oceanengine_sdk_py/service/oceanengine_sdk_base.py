@@ -1,4 +1,4 @@
-from typing import Optional, Literal, Iterable
+from typing import  Literal, Iterable
 from collections.abc import Mapping
 import json
 import requests

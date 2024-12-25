@@ -2,11 +2,11 @@ import re
 import pandas as pd
 
 
-from py_data_analytics_prep.src.oceanengine_sdk_py import OceanengineSdkClient
-from py_data_analytics_prep.src.data_analytics_prep.db_module import DbModule
+# from py_data_analytics_prep.src.oceanengine_sdk_py import OceanengineSdkClient
+# from py_data_analytics_prep.src.data_analytics_prep.db_module import DbModule
 
-# from src.oceanengine_sdk_py import OceanengineSdkClient
-# from src.data_analytics_prep.db_module import DbModule
+from src.oceanengine_sdk_py import OceanengineSdkClient
+from src.oceanengine_sdk_py.db.db_module import DbModule
 
 def camel_to_snake(key):
     """

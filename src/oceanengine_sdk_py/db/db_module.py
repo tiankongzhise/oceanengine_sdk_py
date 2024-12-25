@@ -16,20 +16,29 @@ from configobj import ConfigObj
 from inspect import currentframe, getouterframes
 
 import pandas as pd
+from ..local_log.DAP_logging import DAPLogging
 
-if __package__:
-    from .DAP_logging import DAPLogging
 
-else:
-    from DAP_logging import DAPLogging
 
-if TYPE_CHECKING:
-    if __package__:
-        from .get_bd_sem_data import BaiduAdsClient
-    else:
-        from get_bd_sem_data import BaiduAdsClient
+from pathlib import Path
+def find_project_root(start_dir=None, marker_files=('LICENSE', '.gitignore', '.git')):
+    if start_dir is None:
+        start_dir = Path.cwd()
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+    current_dir = Path(start_dir).resolve()
+
+    while True:
+        for marker in marker_files:
+            if (current_dir / marker).exists():
+                return current_dir
+        parent_dir = current_dir.parent
+        if parent_dir == current_dir:
+            # Reached the root of the filesystem without finding a marker
+            return None
+        current_dir = parent_dir
+
+
+BASE_DIR = find_project_root()
 DEFINE_CONFIG_PATH = os.path.join(BASE_DIR, 'config', 'config.ini')
 
 

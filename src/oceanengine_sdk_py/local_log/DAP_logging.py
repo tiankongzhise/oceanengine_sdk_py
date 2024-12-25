@@ -9,9 +9,30 @@ import functools
 from loguru import logger
 from configobj import ConfigObj
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+from pathlib import Path
+
+
+def find_project_root(start_dir=None, marker_files=('LICENSE', '.gitignore', '.git')):
+    if start_dir is None:
+        start_dir = Path.cwd()
+
+    current_dir = Path(start_dir).resolve()
+
+    while True:
+        for marker in marker_files:
+            if (current_dir / marker).exists():
+                return current_dir
+        parent_dir = current_dir.parent
+        if parent_dir == current_dir:
+            # Reached the root of the filesystem without finding a marker
+            return None
+        current_dir = parent_dir
+
+
+BASE_DIR = find_project_root()
 DEFINE_CONFIG_PATH = os.path.join(BASE_DIR, 'config', 'config.ini')
 
+print(DEFINE_CONFIG_PATH)
 
 class DAPLogging(object):
     # 初始化判断
@@ -36,35 +57,36 @@ class DAPLogging(object):
     def __init_loguru(self, cfg: ConfigObj) -> None:
         # 将字符串形式的配置属性转化为对应的loguru要求的格式
         # 默认日志名称
-        if os.path.isdir(cfg['local_log']['log_path']):
-            log_save_path = os.path.join(cfg['local_log']['log_path'], cfg['local_log']['define_log_name'])
+        log = self.log_cfg_status
+        if os.path.isdir(cfg[log]['log_path']):
+            log_save_path = os.path.join(cfg[log]['log_path'], cfg[log]['define_log_name'])
         else:
-            log_save_path = os.path.join(BASE_DIR, cfg['local_log']['log_path'], cfg['local_log']['define_log_name'])
+            log_save_path = os.path.join(BASE_DIR, cfg[log]['log_path'], cfg[log]['define_log_name'])
 
             # 默认日志格式
-            loguru_format = cfg['local_log']['loguru_format']
+            loguru_format = cfg[log]['loguru_format']
 
             # 默认日志等级
-            if cfg['local_log'].get('loguru_logging_level') is None:
+            if cfg[log].get('loguru_logging_level') is None:
                 logger_level = 'DEBUG'
             else:
-                logger_level = cfg['local_log']['loguru_logging_level']
+                logger_level = cfg[log]['loguru_logging_level']
 
             # 默认队列情况
-            loguru_enqueue = self.__loguru_config_item_to_bool(cfg['local_log'].get('loguru_enqueue'))
+            loguru_enqueue = self.__loguru_config_item_to_bool(cfg[log].get('loguru_enqueue'))
             # 是否向上追踪
-            loguru_trace = self.__loguru_config_item_to_bool(cfg['local_log'].get('loguru_trace'))
+            loguru_trace = self.__loguru_config_item_to_bool(cfg[log].get('loguru_trace'))
             # 是否开启崩溃追踪
-            loguru_catch = self.__loguru_config_item_to_bool(cfg['local_log'].get('loguru_catch'))
+            loguru_catch = self.__loguru_config_item_to_bool(cfg[log].get('loguru_catch'))
             # 日志轮转设定
-            loguru_rotation = cfg['local_log'].get('loguru_rotation')
+            loguru_rotation = cfg[log].get('loguru_rotation')
             # 日志压缩方式
-            loguru_compression = cfg['local_log'].get('loguru_compression')
+            loguru_compression = cfg[log].get('loguru_compression')
         # 清除loguru默认输出
         logger.remove()
         # 设置一路日志输出到日志文件
         logger.add(
-            log_save_path + "_{time:YYYY-MM-DD_HH-mm}.local_log",
+            log_save_path + "_{time:YYYY-MM-DD_HH-mm}." + log,
             format=loguru_format,
             level=logger_level,
             enqueue=loguru_enqueue,
@@ -102,15 +124,16 @@ class DAPLogging(object):
                 local_config_path = self.config_path
             # 读取默认配置文件
             cfg = ConfigObj(local_config_path, encoding='utf-8', )
+            self.log_cfg_status = 'log'
             # 初始化loguru
             self.__init_loguru(cfg)
             # 初始化DAP日志器的工作模式
-            self.logger_level = cfg['local_log']['DAP_logging_module']
+            self.logger_level = cfg[self.log_cfg_status]['DAP_logging_module']
             # 标记init已经完成初始化，后续将跳过
             self.__call_flag = True
 
-            self.__big_result_limit = int(cfg['local_log']['big_result_limit'])
-            self.__big_args_limit = int(cfg['local_log']['big_args_limit'])
+            self.__big_result_limit = int(cfg[self.log_cfg_status]['big_result_limit'])
+            self.__big_args_limit = int(cfg[self.log_cfg_status]['big_args_limit'])
 
     def __call__(self, *args, **kwargs) -> Any:
         # 确保这里的functools.wraps装饰器正确接收了self.func作为参数
