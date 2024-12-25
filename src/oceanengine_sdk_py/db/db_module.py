@@ -104,6 +104,11 @@ class DbModule(object):
             raise KeyError(f'{item}没有对应的配置文件，请检查输入！')
             sys.exit('数据库链接建立失败！')
         try:
+
+            print(f'DB_HOST:{os.getenv('DB_HOST')}')
+            print(f'DB_PORT:{os.getenv('DB_PORT')}')
+            print(F'DB_USER:{os.getenv('DB_USER')}')
+            print(f'DB_PASSWORD:{os.getenv('DB_PASSWORD')}')
             db_connect = pymysql.connect(
                 host=os.getenv('DB_HOST'),
                 port=int(os.getenv('DB_PORT')),

@@ -128,6 +128,11 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# PyCharm
+#  JetBrains specific template, remove if you don't use PyCharm
+.idea/
+
+
 #配置文件
 .env/
 
