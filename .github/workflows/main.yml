@@ -13,6 +13,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: COVERAGE_RUN
     env:
       DB_HOST: ${{ secrets.DB_HOST }}
       DB_USER: ${{ secrets.DB_USER }}
@@ -29,11 +30,6 @@ jobs:
         python-version: '3.x'
 
     - name: Install dependencies
-      env:
-        DB_HOST: ${{ secrets.DB_HOST }}
-        DB_USER: ${{ secrets.DB_USER }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        DB_PORT: ${{ secrets.DB_PORT }}
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
@@ -41,10 +37,10 @@ jobs:
         echo "DB_USER: $DB_USER"
         echo "DB_PASSWORD: $DB_PASSWORD"
         echo "DB_PORT: $DB_PORT"
-        echo "$DB_HOST:${{ secrets.DB_HOST }}"
-        echo "$DB_USER: ${{ secrets.DB_USER }}"
-        echo "$DB_PASSWORD: ${{ secrets.DB_PASSWORD }}"
-        echo "$DB_PORT:${{ secrets.DB_PORT }}"
+        echo "a_DB_HOST:${{ secrets.DB_HOST }}"
+        echo "a_DB_USER: ${{ secrets.DB_USER }}"
+        echo "a_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}"
+        echo "a_DB_PORT:${{ secrets.DB_PORT }}"
 
     - name: Print environment variables (debug)
       run: |
