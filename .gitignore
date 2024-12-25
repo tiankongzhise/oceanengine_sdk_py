@@ -1,4 +1,4 @@
-# Byte-compiled / optimized / DLL files
+ # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
@@ -130,9 +130,11 @@ dmypy.json
 
 #配置文件
 src/oceanengine_sdk_py/config/
+config/
 
 #日志文件
 src/oceanengine_sdk_py/log/
+log/
 
 #下载的数据
 src/oceanengine_sdk_py/data/

@@ -63,28 +63,28 @@ class DAPLogging(object):
         else:
             log_save_path = os.path.join(BASE_DIR, cfg[log]['log_path'], cfg[log]['define_log_name'])
 
-            # 默认日志格式
-            loguru_format = cfg[log]['loguru_format']
+        # 默认日志格式
+        loguru_format = cfg[log]['loguru_format']
 
-            # 默认日志等级
-            if cfg[log].get('loguru_logging_level') is None:
-                logger_level = 'DEBUG'
-            else:
-                logger_level = cfg[log]['loguru_logging_level']
+        # 默认日志等级
+        if cfg[log].get('loguru_logging_level') is None:
+            logger_level = 'DEBUG'
+        else:
+            logger_level = cfg[log]['loguru_logging_level']
 
-            # 默认队列情况
-            loguru_enqueue = self.__loguru_config_item_to_bool(cfg[log].get('loguru_enqueue'))
-            # 是否向上追踪
-            loguru_trace = self.__loguru_config_item_to_bool(cfg[log].get('loguru_trace'))
-            # 是否开启崩溃追踪
-            loguru_catch = self.__loguru_config_item_to_bool(cfg[log].get('loguru_catch'))
-            # 日志轮转设定
-            loguru_rotation = cfg[log].get('loguru_rotation')
-            # 日志压缩方式
-            loguru_compression = cfg[log].get('loguru_compression')
+        # 默认队列情况
+        loguru_enqueue = self.__loguru_config_item_to_bool(cfg[log].get('loguru_enqueue'))
+        # 是否向上追踪
+        loguru_trace = self.__loguru_config_item_to_bool(cfg[log].get('loguru_trace'))
+        # 是否开启崩溃追踪
+        loguru_catch = self.__loguru_config_item_to_bool(cfg[log].get('loguru_catch'))
+        # 日志轮转设定
+        loguru_rotation = cfg[log].get('loguru_rotation')
+        # 日志压缩方式
+        loguru_compression = cfg[log].get('loguru_compression')
         # 清除loguru默认输出
         logger.remove()
-        # 设置一路日志输出到日志文件
+        # 设置日志输出到日志文件
         logger.add(
             log_save_path + "_{time:YYYY-MM-DD_HH-mm}." + log,
             format=loguru_format,
