@@ -41,7 +41,7 @@ jobs:
 
     - name: Print env
       env:
-        COVERAGE_RUN = true
+        COVERAGE_RUN: true
       run: |
         echo "COVERAGE_RUN: $COVERAGE_RUN"
     - name: Generate coverage report
