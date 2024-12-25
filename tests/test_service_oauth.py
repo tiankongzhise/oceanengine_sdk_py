@@ -97,6 +97,7 @@ class TestServiceOauth2(unittest.TestCase):
         self.client.refresh_expires_time = current_time + datetime.timedelta(
                            seconds=rsp_data['data'].get('refresh_token_expires_in', 0))
         rsp = convert_dict_keys(vars(self.client), "small_camel")
+        print(rsp)
         update_result = self.db_service.update_auth_sql(self.define_db_connect, rsp, rsp['userName'])
 
     def test_oauth2_access__token_adApi(self):

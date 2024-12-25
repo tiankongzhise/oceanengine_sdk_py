@@ -34,7 +34,6 @@ jobs:
 
     - name: Generate coverage report
       run: |
-        python -c "import os; print(os.getenv('MY_SECRET_KEY'))"  # 打印 MY_SECRET_KEY 环境变量值
         coverage run --parallel-mode -m unittest
         coverage combine
         coverage xml -i
