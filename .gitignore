@@ -129,8 +129,7 @@ dmypy.json
 .pyre/
 
 #配置文件
-src/oceanengine_sdk_py/config/
-config/
+.env/
 
 #日志文件
 src/oceanengine_sdk_py/log/

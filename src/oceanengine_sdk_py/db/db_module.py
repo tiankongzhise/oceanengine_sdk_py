@@ -14,6 +14,10 @@ from typing import (Optional,
                     )
 from configobj import ConfigObj
 from inspect import currentframe, getouterframes
+from dotenv import load_dotenv
+
+# 加载 .env 文件
+load_dotenv()
 
 import pandas as pd
 from ..local_log.DAP_logging import DAPLogging
@@ -101,10 +105,10 @@ class DbModule(object):
             sys.exit('数据库链接建立失败！')
         try:
             db_connect = pymysql.connect(
-                host=db_config['host'],
-                port=int(db_config['port']),
-                user=db_config['user'],
-                password=db_config['password'],
+                host=os.getenv('DB_HOST'),
+                port=int(os.getenv('DB_PORT')),
+                user=os.getenv('DB_USER'),
+                password=os.getenv('DB_PASSWORD'),
                 db=db_config['db'],
                 charset=db_config['charset'],
                 cursorclass=cursors_class_dict[db_config['cursorclass']]
