@@ -184,7 +184,8 @@ class TestOceanengineClient(unittest.TestCase):
             "page_size": 100
         }
         _data = self.client.report_advertiser_get_adApi(query)
-        print(_data)
+        self.assertEqual(_data['code'], 0)
+        self.assertIsInstance(_data['data'], dict)
 
     def test_report_agent_get__v2_adApi(self):
         query = {
