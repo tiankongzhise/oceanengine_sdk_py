@@ -1,0 +1,11 @@
+- name: Generate coverage report
+  run:
+    coverage run --parallel_mode -m unittest
+    coverage combine
+    coverage xml -i
+  env:
+    COVERAGE_RUN: True
+- name: Upload report to Codecov
+  uses: codecov/codecov-action@v5
+  with:
+    file: ./coverage.xml
