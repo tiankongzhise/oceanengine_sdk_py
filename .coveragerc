@@ -1,4 +1,7 @@
 [run]
+source = src/oceanengine_sdk_py
+
 omit =
     # executing is imported
-    */objprint/executing/*
+    */db/*
+    */local_log/*
