@@ -3,3 +3,4 @@ configobj
 coverage
 requests
 pymysql
+loguru
