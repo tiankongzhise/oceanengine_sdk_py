@@ -33,8 +33,17 @@ jobs:
         pip install -r requirements.txt
 
     - name: Print environment variables (debug)
-      run: env  # 打印所有环境变量，检查 MY_SECRET_KEY 是否正确传递
+      run: |
+        echo "DB_HOST: $DB_HOST"
+        echo "DB_USER: $DB_USER"
+        echo "DB_PASSWORD: $DB_PASSWORD"
+        echo "DB_PORT: $DB_PORT"
 
+    - name: Print env
+      env:
+        COVERAGE_RUN = true
+      run: |
+        echo "COVERAGE_RUN: $COVERAGE_RUN"
     - name: Generate coverage report
       run: |
         python -c "import os; print(os.getenv('MY_SECRET_KEY'))"  # 打印 MY_SECRET_KEY 环境变量值
