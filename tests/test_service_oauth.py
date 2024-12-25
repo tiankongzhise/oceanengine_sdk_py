@@ -106,9 +106,9 @@ class TestServiceOauth2(unittest.TestCase):
                 "auth_code": self.client.auth_code
             }
         self.rsp = self.client.oauth2_access__token_adApi(query)
-        self.assertEqual(self.rsp['status_code'], 200)
-        self.assertIn('access_token', self.rsp)
-        self.assertIn('refresh_token', self.rsp)
+        self.assertEqual(self.rsp['code'], 0)
+        self.assertIn('access_token', self.rsp['data'])
+        self.assertIn('refresh_token', self.rsp['data'])
 
     def test_oauth2_refresh__token(self):
         query = {
@@ -116,7 +116,7 @@ class TestServiceOauth2(unittest.TestCase):
                 "secret": self.client.secret_key,
                 "refresh_token": self.client.refresh_token
             }
-        rsp = self.client.oauth2_refresh__token(query)
-        self.assertEqual(rsp['status_code'], 200)
-        self.assertIn('access_token', rsp)
-        self.assertIn('refresh_token', rsp)
+        self.rsp = self.client.oauth2_refresh__token(query)
+        self.assertEqual(self.rsp['code'], 0)
+        self.assertIn('access_token', self.rsp['data'])
+        self.assertIn('refresh_token', self.rsp['data'])
