@@ -128,9 +128,13 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# PyCharm
+#  JetBrains specific template, remove if you don't use PyCharm
+.idea/
+
+
 #配置文件
-src/oceanengine_sdk_py/config/
-config/
+.env/
 
 #日志文件
 src/oceanengine_sdk_py/log/
