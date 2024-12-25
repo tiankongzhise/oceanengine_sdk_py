@@ -1,11 +1,11 @@
-- name : Generate coverage report
+- name: Generate coverage report
   run:
-    coverage run--source objprint--parallel-mode -m unittest
+    coverage run --parallel_mode -m unittest
     coverage combine
-    coverage xml-i
+    coverage xml -i
   env:
-    COVERAGE RUN:True
-- name:Upload reportto Codecov
-  uses:codecov/codecov-action@v3
+    COVERAGE_RUN: True
+- name: Upload report to Codecov
+  uses: codecov/codecov-action@v5
   with:
-    file:./coverage.xml
+    file: ./coverage.xml
