@@ -1,5 +1,5 @@
 - name: Generate coverage report
-  run:
+  run: |
     coverage run --parallel_mode -m unittest
     coverage combine
     coverage xml -i
