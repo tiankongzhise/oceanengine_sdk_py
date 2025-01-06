@@ -2,7 +2,7 @@ import inspect
 
 from collections.abc import Mapping
 
-from src.oceanengine_sdk_py.service.oceanengine_sdk_base import OceanengineSdkBase
+from .oceanengine_sdk_base import OceanengineSdkBase
 
 
 class AccountService(OceanengineSdkBase):

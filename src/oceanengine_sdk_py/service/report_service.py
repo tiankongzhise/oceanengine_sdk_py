@@ -25,7 +25,7 @@ params为巨量引擎要求的请求参数，参数类型参见巨量引擎对�
 """
 import inspect
 from collections.abc import Mapping
-from src.oceanengine_sdk_py.service.oceanengine_sdk_base import OceanengineSdkBase
+from .oceanengine_sdk_base import OceanengineSdkBase
 
 
 class ReportService(OceanengineSdkBase):
