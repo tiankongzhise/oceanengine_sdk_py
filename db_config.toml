@@ -1,0 +1,37 @@
+charset = "utf8mb4"
+cursorclass = "dict"
+
+[baidudb]
+    charset = "utf8mb4"
+    cursorclass = "dict"
+
+[raw_data_db]
+    db = "raw_data"
+    charset = "utf8mb4"
+    cursorclass = "pymysql.cursors.DictCursor"
+    baidu_keyword_test_report = "bd_keyword_test"
+
+[source_data_warehouse]
+    db = "source_data_warehouse"
+    charset = "utf8mb4"
+    cursorclass = "pymysql.cursors.DictCursor"
+    search_baidu_keyword_hourly_report = "search_baidu_keyword_hourly_report"
+    search_baidu_searchword_hourly_report = "search_baidu_searchword_hourly_report"
+    search_qingge_searchword_hourly_report = "search_qingge_searchword_hourly_report"
+    consult_ads_result = "consult_ads_result"
+    phone_ads_result = "phone_ads_result"
+    form_ads_result = "form_ads_result"
+
+[transformed_insights_database]
+    db = "transformed_insights_database"
+    charset = "utf8mb4"
+    cursorclass = "pymysql.cursors.DictCursor"
+    search_baidu_keyword_hourly_report = "search_baidu_keyword_hourly_report"
+    search_searchword_hourly_report = "search_searchword_hourly_report"
+    costomer_stage_1 = "costomer_stage_1"
+
+[dim_database]
+    db = "dim_database"
+    charset = "utf8mb4"
+    cursorclass = "pymysql.cursors.DictCursor"
+    account_dimension = "dim_ad_account_dimension"
