@@ -143,3 +143,6 @@ log/
 #下载的数据
 src/oceanengine_sdk_py/data/
 data/
+
+#非正式的测试文件
+temp/

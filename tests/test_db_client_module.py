@@ -44,6 +44,8 @@ class test_db_client(unittest.TestCase):
                                           )
         print(f"test_generate_sql_insert,sql:{sql_text}")
         print(f"test_generate_sql_insert,values:{values}")
+        self.assertIsInstance(sql_text,str)
+        self.assertIsInstance(values,list)
 
     def test_generate_sql_insert_dict_list(self):
         db_client = DbClient('test_db')
@@ -55,7 +57,9 @@ class test_db_client(unittest.TestCase):
                                           )
         print(f"test_generate_sql_insert,sql:{sql_text}")
         print(f"test_generate_sql_insert,values:{values}")
-    def test_generate_sql_insert_dict_truple(self):
+        self.assertIsInstance(sql_text,str)
+        self.assertIsInstance(values,list)
+    def test_generate_sql_insert_dict_tuple(self):
         db_client = DbClient('test_db')
         sql_text,values = db_client.generate_sql(table_name='test_table',
                                           operation='insert',
@@ -65,8 +69,10 @@ class test_db_client(unittest.TestCase):
                                           )
         print(f"test_generate_sql_insert,sql:{sql_text}")
         print(f"test_generate_sql_insert,values:{values}")
+        self.assertIsInstance(sql_text,str)
+        self.assertIsInstance(values,list)
 
-    def test_generate_sql_insert_list_truple(self):
+    def test_generate_sql_insert_list_tuple(self):
         db_client = DbClient('test_db')
         sql_text,values = db_client.generate_sql(table_name='test_table',
                                           operation='insert',
@@ -76,14 +82,60 @@ class test_db_client(unittest.TestCase):
                                           )
         print(f"test_generate_sql_insert,sql:{sql_text}")
         print(f"test_generate_sql_insert,values:{values}")
+        self.assertIsInstance(sql_text,str)
+        self.assertIsInstance(values,list)
 
     def test_generate_sql_insert_list_list(self):
         db_client = DbClient('test_db')
         sql_text,values = db_client.generate_sql(table_name='test_table',
                                           operation='insert',
-                                          # columns=['name','age'],
-                                          data=[{'name':'test_name_a','age':18},
-                                                {'name':'test_name_b','age':19}]
+                                          columns=['name','age'],
+                                          data=[['test_name_a',18],
+                                                ['test_name_b',19]]
                                           )
         print(f"test_generate_sql_insert,sql:{sql_text}")
         print(f"test_generate_sql_insert,values:{values}")
+        self.assertIsInstance(sql_text,str)
+        self.assertIsInstance(values,list)
+
+    def test_generate_sql_insert_tuple_list(self):
+        db_client = DbClient('test_db')
+        sql_text, values = db_client.generate_sql(table_name='test_table',
+                                                  operation='insert',
+                                                  columns=['name', 'age'],
+                                                  data=[('test_name_a', 18),
+                                                        ('test_name_b', 19)]
+                                                  )
+        print(f"test_generate_sql_insert,sql:{sql_text}")
+        print(f"test_generate_sql_insert,values:{values}")
+        self.assertIsInstance(sql_text,str)
+        self.assertIsInstance(values,list)
+
+    def test_generate_sql_insert_tuple_tuple(self):
+        db_client = DbClient('test_db')
+        sql_text, values = db_client.generate_sql(table_name='test_table',
+                                                  operation='insert',
+                                                  columns=['name', 'age'],
+                                                  data=(('test_name_a', 18),
+                                                        ('test_name_b', 19))
+                                                  )
+        print(f"test_generate_sql_insert,sql:{sql_text}")
+        print(f"test_generate_sql_insert,values:{values}")
+        self.assertIsInstance(sql_text,str)
+        self.assertIsInstance(values,list)
+
+    def test_generate_sql_check_err(self):
+        db_client = DbClient('test_db')
+        with self.assertRaises(ValueError):
+            data = [{'name':'test_name_a','age':18},
+                    {'name':'test_name_b','age':19}]
+
+            # data = (('test_name_a', 18),
+            #         ('test_name_b', 19))
+
+
+            sql_text, values = db_client.generate_sql(table_name='test_table',
+                                                      operation='insert',
+                                                      columns=['name', 'age'],
+                                                      data = data
+                                                      )
