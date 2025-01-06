@@ -35,7 +35,7 @@ class OceanengineSdkBase(object):
     def make_request(self,
                      call_func_name: str,
                      params: Mapping | None,
-                     http_methods: Literal['get', 'put'] = 'put',
+                     http_methods: Literal['get','post'] = 'post',
                      special_headers: Mapping | None = None
                      ) -> Mapping[str, any]:
         # print("call common method")
@@ -72,6 +72,16 @@ class OceanengineSdkBase(object):
         return rsp.json()
 
     def __init__(self, *args, **kwargs):
+        self.app_id = None
+        self.secret_key = None
+        self.access_token = None
+        self.refresh_token = None
+        self.expires_time = None
+        self.refresh_expires_time = None
+        self.auth_code = None
+        self.user_id = None
+        self.user_name = None
+
         if args and isinstance(args[0], dict):
             self.from_dict(args[0])
         else:
