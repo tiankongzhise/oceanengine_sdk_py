@@ -171,15 +171,20 @@ class DbClient(object):
                 if operation == 'select':
                     return True
                 else:
-                    raise ValueError("模式为select时，columns与data参数不能同时为非None")
+                    raise ValueError("模式为非select时，columns与data参数不能同时为非None")
             else:
                 if isinstance(data,dict):
                     raise ValueError("data参数为dict时，columns参数必须为None")
                 elif isinstance(data,list) or isinstance(data,tuple):
                     if isinstance(data[0],list) or isinstance(data[0],tuple):
                         return True
+                    elif isinstance(data[0],dict):
+                        if all([column in data[0].keys() for column in columns]):
+                            return True
+                        else:
+                            raise ValueError("columns参数中存在data参数中不存在的列")
                     else:
-                        raise ValueError("columns参数非空时且data参数为list或tuple时，每个元素类型必须是list或tuple")
+                        raise ValueError(f"data参数为list或tuple时，元素只能为list,tuple,dict，此类型尚不支持{type(data[0])}")
                 else:
                     raise ValueError("data参数类型错误,data必须为dict或者由dict组成的list或tuple")
         else:
@@ -206,7 +211,6 @@ class DbClient(object):
             new_conditions = new_conditions.replace(f"{{{match}}}", f'`{match}`')
 
         conditions_str = new_conditions
-
 
 
         return conditions_str, matches
@@ -274,19 +278,25 @@ class DbClient(object):
             sql = f"SELECT `{columns_str}` from {table_name} {conditions_str}"
         else:
             raise ValueError("操作类型错误")
-
         if data:
             if isinstance(data,dict):
-                values = [list(data.values())]
-            else:
-                if isinstance(data[0],dict):
-                    values = [list(item.values()) for item in data]
-                elif isinstance(data[0],tuple):
-                    values = [list(item) for item in data]
-                elif isinstance(data[0],list):
-                    values = [item for item in data]
+                if columns:
+                    values = [[data[column] for column in columns]]
                 else:
-                    raise ValueError(f"values的list转化失败，data:{data}")
+                    values = [list(data.values())]
+
+            elif isinstance(data[0],dict):
+                if columns:
+                    values = [[item[column] for column in columns] for item in data]
+                else:
+                    values = [list(item.values()) for item in data]
+            elif isinstance(data[0],tuple):
+                values = [list(item) for item in data]
+            elif isinstance(data[0],list):
+                values = [item for item in data]
+            else:
+                raise ValueError(f"values的list转化失败，data:{data}")
+
         else:
             values = []
         if update_columns:
