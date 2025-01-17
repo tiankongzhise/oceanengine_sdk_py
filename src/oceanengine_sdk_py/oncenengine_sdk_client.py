@@ -5,11 +5,12 @@ from collections.abc import Mapping
 from .service.oauth2 import Oauth2
 from .service.account_service import AccountService
 from .service.report_service import ReportService
+from .service.ad_service_plus import AdServicePlus
 
 
 
 
-class OceanengineSdkClient(Oauth2, AccountService, ReportService):
+class OceanengineSdkClient(Oauth2, AccountService, ReportService, AdServicePlus):
 
     # 自实现的客户端实用功能，比如保持登录状态
     def __update_auth_info(self, rsp):
