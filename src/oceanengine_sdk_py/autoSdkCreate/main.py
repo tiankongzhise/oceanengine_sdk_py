@@ -53,6 +53,6 @@ def create_method(api_url):
     print(replace_first_int,del_char)
 
 if __name__ == '__main__':
-    api_url = 'https://ad.oceanengine.com/open_api/2/agent/info/'
+    api_url = 'https://api.oceanengine.com/open_api/v3.0/promotion/list/'
     create_method(api_url)
 
