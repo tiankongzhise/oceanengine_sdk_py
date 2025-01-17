@@ -83,13 +83,13 @@ class DbClient(object):
             raise FileNotFoundError('未找到 db_config.toml 文件')
         with open(db_config_path, 'rb') as f:
             all_db_config = tomllib.load(f)
-        if db_name not in all_db_config:
-            self.config = {
-                'charset': all_db_config['charset'],
-                'cursorclass': all_db_config['cursorclass']
-            }
-        else:
-            self.config = all_db_config.get(db_name)
+
+        self.config = {
+            'charset': all_db_config['charset'],
+            'cursorclass': all_db_config['cursorclass']}
+        db_config = all_db_config.get(db_name)
+        if db_config:
+            self.config.update(db_config)
         self.conn = self.get_db_connect(db_name)
 
     def get_db_connect(self, db_name: str) -> pymysql.connections.Connection:
